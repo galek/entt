@@ -146,21 +146,21 @@ Dell XPS 13 out of the mid 2014):
 
 | Benchmark | EntityX (experimental/compile_time) | EnTT |
 |-----------|-------------|-------------|
-| Creating 10M entities | 0.128881s | **0.0408754s** |
-| Destroying 10M entities | **0.0531374s** | 0.0545839s |
-| Iterating over 10M entities, unpacking one component, standard view | 0.010661s | **1.58e-07s** |
-| Iterating over 10M entities, unpacking two components, standard view | **0.0112664s** | 0.0840068s |
-| Iterating over 10M entities, unpacking two components, standard view, half of the entities have all the components | **0.0077951s** | 0.042168s |
-| Iterating over 10M entities, unpacking two components, standard view, one of the entities has all the components | 0.00713398s | **8.93e-07s** |
-| Iterating over 10M entities, unpacking two components, persistent view | 0.0112664s | **5.68e-07s** |
-| Iterating over 10M entities, unpacking five components, standard view | **0.00905084s** | 0.137757s |
-| Iterating over 10M entities, unpacking five components, persistent view | 0.00905084s | **2.9e-07s** |
-| Iterating over 10M entities, unpacking ten components, standard view | **0.0104708s** | 0.388602s |
-| Iterating over 10M entities, unpacking ten components, standard view, half of the entities have all the components | **0.00899859s** | 0.200752s |
-| Iterating over 10M entities, unpacking ten components, standard view, one of the entities has all the components | 0.00700349s | **2.565e-06s** |
-| Iterating over 10M entities, unpacking ten components, persistent view | 0.0104708s | **6.23e-07s** |
-| Sort 150k entities, one component | - | **0.0080046s** |
-| Sort 150k entities, match two components | - | **0.00608322s** |
+| Creating 10M entities | 0.1289s | **0.0409s** |
+| Destroying 10M entities | **0.0531s** | 0.0546s |
+| Iterating over 10M entities, unpacking one component, standard view | 0.0107s | **1.6e-07s** |
+| Iterating over 10M entities, unpacking two components, standard view | **0.0113s** | 0.0295s |
+| Iterating over 10M entities, unpacking two components, standard view, half of the entities have all the components | **0.0078s** | 0.0150s |
+| Iterating over 10M entities, unpacking two components, standard view, one of the entities has all the components | 0.0071s | **8.8e-07s** |
+| Iterating over 10M entities, unpacking two components, persistent view | 0.0113s | **5.7e-07s** |
+| Iterating over 10M entities, unpacking five components, standard view | **0.0091s** | 0.0688s |
+| Iterating over 10M entities, unpacking five components, persistent view | 0.0091s | **2.9e-07s** |
+| Iterating over 10M entities, unpacking ten components, standard view | **0.0105s** | 0.1403s |
+| Iterating over 10M entities, unpacking ten components, standard view, half of the entities have all the components | **0.0090s** | 0.0620s |
+| Iterating over 10M entities, unpacking ten components, standard view, one of the entities has all the components | 0.0070s | **1.3e-06s** |
+| Iterating over 10M entities, unpacking ten components, persistent view | 0.0105s | **6.2e-07s** |
+| Sort 150k entities, one component | - | **0.0084s** |
+| Sort 150k entities, match two components | - | **0.0067s** |
 
 `EnTT` includes its own tests and benchmarks. See
 [benchmark.cpp](https://github.com/skypjack/entt/blob/master/test/benchmark.cpp)

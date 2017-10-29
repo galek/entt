@@ -186,7 +186,7 @@ public:
      * @return Version stored along with the given entity identifier.
      */
     version_type version(entity_type entity) const noexcept {
-        return version_type((entity >> traits_type::version_shift) & traits_type::version_mask);
+        return version_type((entity >> traits_type::entity_shift) & traits_type::version_mask);
     }
 
     /**
@@ -209,7 +209,7 @@ public:
     version_type current(entity_type entity) const noexcept {
         const auto entt = entity & traits_type::entity_mask;
         assert(entt < entities.size());
-        return version_type((entities[entt] >> traits_type::version_shift) & traits_type::version_mask);
+        return version_type((entities[entt] >> traits_type::entity_shift) & traits_type::version_mask);
     }
 
     /**
@@ -287,7 +287,7 @@ public:
         if(available.empty()) {
             entity = entity_type(entities.size());
             assert(entity < traits_type::entity_mask);
-            assert((entity >> traits_type::version_shift) == entity_type{});
+            assert((entity >> traits_type::entity_shift) == entity_type{});
             entities.push_back(entity);
         } else {
             entity = available.back();
@@ -316,8 +316,8 @@ public:
         assert(valid(entity));
 
         const auto entt = entity & traits_type::entity_mask;
-        const auto version = 1 + ((entity >> traits_type::version_shift) & traits_type::version_mask);
-        const auto next = entt | (version << traits_type::version_shift);
+        const auto version = 1 + ((entity >> traits_type::entity_shift) & traits_type::version_mask);
+        const auto next = entt | (version << traits_type::entity_shift);
         entities[entt] = next;
         available.push_back(next);
 
@@ -628,8 +628,8 @@ public:
         pools.clear();
 
         for(auto &&entity: entities) {
-            const auto version = 1 + ((entity >> traits_type::version_shift) & traits_type::version_mask);
-            entity = (entity & traits_type::entity_mask) | (version << traits_type::version_shift);
+            const auto version = 1 + ((entity >> traits_type::entity_shift) & traits_type::version_mask);
+            entity = (entity & traits_type::entity_mask) | (version << traits_type::entity_shift);
             available.push_back(entity);
         }
     }

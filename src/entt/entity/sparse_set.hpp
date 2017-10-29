@@ -87,6 +87,8 @@ class SparseSet<Entity> {
         std::size_t pos;
     };
 
+    static constexpr auto in_use = 1 << traits_type::entity_shift;
+
 public:
     /*! @brief Underlying entity identifier. */
     using entity_type = Entity;
@@ -194,7 +196,8 @@ public:
      */
     bool has(entity_type entity) const noexcept {
         const auto entt = entity & traits_type::entity_mask;
-        return entt < reverse.size() && reverse[entt] < direct.size() && direct[reverse[entt]] == entity;
+        // the in-use control bit permits to avoid accessing the direct vector
+        return (entt < reverse.size()) && (reverse[entt] & in_use);
     }
 
     /**
@@ -211,7 +214,9 @@ public:
      */
     pos_type get(entity_type entity) const noexcept {
         assert(has(entity));
-        return reverse[entity & traits_type::entity_mask];
+        const auto entt = entity & traits_type::entity_mask;
+        // we must get rid of the in-use bit for it's not part of the position
+        return reverse[entt] & ~in_use;
     }
 
     /**
@@ -231,11 +236,13 @@ public:
         const auto entt = entity & traits_type::entity_mask;
 
         if(!(entt < reverse.size())) {
-            reverse.resize(entt+1);
+            reverse.resize(entt+1, pos_type{});
         }
 
+        // we exploit the fact that pos_type is equal to entity_type and pos has
+        // traits_type::version_mask bits unused we can use to mark it as in-use
         const auto pos = pos_type(direct.size());
-        reverse[entt] = pos;
+        reverse[entt] = pos | in_use;
         direct.emplace_back(entity);
 
         return pos;
@@ -256,8 +263,12 @@ public:
         assert(has(entity));
         const auto entt = entity & traits_type::entity_mask;
         const auto back = direct.back() & traits_type::entity_mask;
-        const auto pos = reverse[entt];
-        reverse[back] = pos;
+        const auto pos = reverse[entt] & ~in_use;
+        // the order matters: if back and entt are the same (for the sparse set
+        // has size 1), switching the two lines below doesn't work as expected
+        reverse[back] = pos | in_use;
+        reverse[entt] = pos;
+        // swap-and-pop the last element with the selected ont
         direct[pos] = direct.back();
         direct.pop_back();
     }
@@ -282,7 +293,8 @@ public:
         assert(has(rhs));
         const auto le = lhs & traits_type::entity_mask;
         const auto re = rhs & traits_type::entity_mask;
-        std::swap(direct[reverse[le]], direct[reverse[re]]);
+        // we must get rid of the in-use bit for it's not part of the position
+        std::swap(direct[reverse[le] & ~in_use], direct[reverse[re] & ~in_use]);
         std::swap(reverse[le], reverse[re]);
     }
 
@@ -371,7 +383,7 @@ public:
     }
 
 private:
-    std::vector<entity_type> reverse;
+    std::vector<pos_type> reverse;
     std::vector<entity_type> direct;
 };
 
