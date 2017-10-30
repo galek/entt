@@ -87,7 +87,7 @@ class SparseSet<Entity> {
         std::size_t pos;
     };
 
-    static constexpr auto in_use = 1 << traits_type::entity_shift;
+    static constexpr Entity in_use = 1 << traits_type::entity_shift;
 
 public:
     /*! @brief Underlying entity identifier. */
