@@ -116,7 +116,7 @@ public:
     SparseSet & operator=(SparseSet &&) = default;
 
     /**
-     * @brief Returns the number of elements in the sparse set.
+     * @brief Returns the number of elements in a sparse set.
      *
      * The number of elements is also the size of the internal packed array.
      * There is no guarantee that the internal sparse array has the same size.
@@ -130,7 +130,7 @@ public:
     }
 
     /**
-     * @brief Checks whether the sparse set is empty.
+     * @brief Checks whether a sparse set is empty.
      * @return True is the sparse set is empty, false otherwise.
      */
     bool empty() const noexcept {
@@ -190,7 +190,7 @@ public:
     }
 
     /**
-     * @brief Checks if the sparse set contains the given entity.
+     * @brief Checks if a sparse set contains an entity.
      * @param entity A valid entity identifier.
      * @return True if the sparse set contains the entity, false otherwise.
      */
@@ -201,7 +201,7 @@ public:
     }
 
     /**
-     * @brief Returns the position of the entity in the sparse set.
+     * @brief Returns the position of an entity in a sparse set.
      *
      * @warning
      * Attempting to get the position of an entity that doesn't belong to the
@@ -220,7 +220,7 @@ public:
     }
 
     /**
-     * @brief Assigns an entity to the sparse set.
+     * @brief Assigns an entity to a sparse set.
      *
      * @warning
      * Attempting to assign an entity that already belongs to the sparse set
@@ -249,7 +249,7 @@ public:
     }
 
     /**
-     * @brief Removes the given entity from the sparse set.
+     * @brief Removes an entity from a sparse set.
      *
      * @warning
      * Attempting to remove an entity that doesn't belong to the sparse set
@@ -274,7 +274,7 @@ public:
     }
 
     /**
-     * @brief Swaps the position of the entities in the internal packed array.
+     * @brief Swaps the position of two entities in the internal packed array.
      *
      * For what it's worth, this function affects both the internal sparse array
      * and the internal packed array. Users should not care of that anyway.
@@ -328,7 +328,7 @@ public:
     }
 
     /**
-     * @brief Sort entities according to their order in the given sparse set.
+     * @brief Sort entities according to their order in a sparse set.
      *
      * Entities that are part of both the sparse sets are ordered internally
      * according to the order they have in `other`. All the other entities goes
@@ -375,7 +375,7 @@ public:
     }
 
     /**
-     * @brief Resets the sparse set.
+     * @brief Resets a sparse set.
      */
     virtual void reset() {
         reverse.clear();
@@ -478,7 +478,7 @@ public:
     }
 
     /**
-     * @brief Returns the object associated to the given entity.
+     * @brief Returns the object associated to an entity.
      *
      * @warning
      * Attempting to use an entity that doesn't belong to the sparse set results
@@ -494,7 +494,7 @@ public:
     }
 
     /**
-     * @brief Returns the object associated to the given entity.
+     * @brief Returns the object associated to an entity.
      *
      * @warning
      * Attempting to use an entity that doesn't belong to the sparse set results
@@ -510,7 +510,7 @@ public:
     }
 
     /**
-     * @brief Assigns an entity to the sparse set and constructs its object.
+     * @brief Assigns an entity to a sparse set and constructs its object.
      *
      * @warning
      * Attempting to use an entity that already belongs to the sparse set
@@ -531,7 +531,7 @@ public:
     }
 
     /**
-     * @brief Removes an entity from the sparse set and destroies its object.
+     * @brief Removes an entity from a sparse set and destroies its object.
      *
      * @warning
      * Attempting to use an entity that doesn't belong to the sparse set results
@@ -548,7 +548,7 @@ public:
     }
 
     /**
-     * @brief Swaps the two entities and their objects.
+     * @brief Swaps two entities and their objects.
      *
      * @note
      * This function doesn't swap objects between entities. It exchanges entity
@@ -569,7 +569,7 @@ public:
     }
 
     /**
-     * @brief Resets the sparse set.
+     * @brief Resets a sparse set.
      */
     void reset() override {
         underlying_type::reset();

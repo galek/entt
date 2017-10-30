@@ -171,7 +171,7 @@ public:
     }
 
     /**
-     * @brief Verifies if the entity identifier still refers to a valid entity.
+     * @brief Verifies if an entity identifier still refers to a valid entity.
      * @param entity An entity identifier, either valid or not.
      * @return True if the identifier is still valid, false otherwise.
      */
@@ -181,7 +181,7 @@ public:
     }
 
     /**
-     * @brief Returns the version stored along with the given entity identifier.
+     * @brief Returns the version stored along with an entity identifier.
      * @param entity An entity identifier, either valid or not.
      * @return Version stored along with the given entity identifier.
      */
@@ -190,7 +190,7 @@ public:
     }
 
     /**
-     * @brief Returns the actual version for the given entity identifier.
+     * @brief Returns the actual version for an entity identifier.
      *
      * In case entity identifers are stored around, this function can be used to
      * know if they are still valid or the entity has been destroyed and
@@ -329,7 +329,7 @@ public:
     }
 
     /**
-     * @brief Assigns the given component to the given entity.
+     * @brief Assigns the given component to an entity.
      *
      * A new instance of the given component is created and initialized with the
      * arguments provided (the component must have a proper constructor or be of
@@ -355,7 +355,7 @@ public:
     }
 
     /**
-     * @brief Removes the given component from the given entity.
+     * @brief Removes the given component from an entity.
      *
      * @warning
      * Attempting to use an invalid entity or to remove a component from an
@@ -374,7 +374,7 @@ public:
     }
 
     /**
-     * @brief Checks if the given entity has all the given components.
+     * @brief Checks if an entity has all the given components.
      *
      * @warning
      * Attempting to use an invalid entity results in undefined behavior.<br/>
@@ -397,7 +397,7 @@ public:
     }
 
     /**
-     * @brief Gets a reference to the given component owned by the given entity.
+     * @brief Returns a reference to the given component for an entity.
      *
      * @warning
      * Attempting to use an invalid entity or to get a component from an entity
@@ -417,7 +417,7 @@ public:
     }
 
     /**
-     * @brief Gets a reference to the given component owned by the given entity.
+     * @brief Returns a reference to the given component for an entity.
      *
      * @warning
      * Attempting to use an invalid entity or to get a component from an entity
@@ -436,7 +436,7 @@ public:
     }
 
     /**
-     * @brief Replaces the given component for the given entity.
+     * @brief Replaces the given component for an entity.
      *
      * A new instance of the given component is created and initialized with the
      * arguments provided (the component must have a proper constructor or be of
@@ -462,7 +462,7 @@ public:
     }
 
     /**
-     * @brief Assigns or replaces the given component to the given entity.
+     * @brief Assigns or replaces the given component for an entity.
      *
      * Equivalent to the following snippet (pseudocode):
      *
@@ -568,7 +568,7 @@ public:
     }
 
     /**
-     * @brief Resets the given component for the given entity.
+     * @brief Resets the given component for an entity.
      *
      * If the entity has an instance of the component, this function removes the
      * component from the entity. Otherwise it does nothing.
@@ -616,7 +616,7 @@ public:
     }
 
     /**
-     * @brief Resets the whole registry.
+     * @brief Resets a whole registry.
      *
      * Destroys all the entities. After a call to `reset`, all the entities
      * previously created are recycled with a new version number. In case entity
