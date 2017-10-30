@@ -240,9 +240,9 @@ public:
      *
      * @note
      * The shared pool of entities and thus its order is affected by the changes
-     * to each and every pool of components that it tracks. Therefore changes to
-     * the pools of components can quickly ruin the order imposed to the pool of
-     * entities shared between the persistent views.
+     * to each and every pool that it tracks. Therefore changes to those pools
+     * can quickly ruin the order imposed to the pool of entities shared between
+     * the persistent views.
      *
      * @tparam Comp Type of the component to use to impose the order.
      */

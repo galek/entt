@@ -229,9 +229,8 @@ public:
      * sparse set already contains the given entity.
      *
      * @param entity A valid entity identifier.
-     * @return The position of the entity in the internal packed array.
      */
-    pos_type construct(entity_type entity) {
+    void construct(entity_type entity) {
         assert(!has(entity));
         const auto entt = entity & traits_type::entity_mask;
 
@@ -241,11 +240,8 @@ public:
 
         // we exploit the fact that pos_type is equal to entity_type and pos has
         // traits_type::version_mask bits unused we can use to mark it as in-use
-        const auto pos = pos_type(direct.size());
-        reverse[entt] = pos | in_use;
+        reverse[entt] = pos_type(direct.size()) | in_use;
         direct.emplace_back(entity);
-
-        return pos;
     }
 
     /**
@@ -291,11 +287,11 @@ public:
     virtual void swap(entity_type lhs, entity_type rhs) {
         assert(has(lhs));
         assert(has(rhs));
-        const auto le = lhs & traits_type::entity_mask;
-        const auto re = rhs & traits_type::entity_mask;
+        auto &le = reverse[lhs & traits_type::entity_mask];
+        auto &re = reverse[rhs & traits_type::entity_mask];
         // we must get rid of the in-use bit for it's not part of the position
-        std::swap(direct[reverse[le] & ~in_use], direct[reverse[re] & ~in_use]);
-        std::swap(reverse[le], reverse[re]);
+        std::swap(direct[le & ~in_use], direct[re & ~in_use]);
+        std::swap(le, re);
     }
 
     /**
@@ -542,6 +538,7 @@ public:
      * @param entity A valid entity identifier.
      */
     void destroy(entity_type entity) override {
+        // swaps isn't required here, we are getting rid of the last element
         instances[underlying_type::get(entity)] = std::move(instances.back());
         instances.pop_back();
         underlying_type::destroy(entity);

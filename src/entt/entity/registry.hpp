@@ -102,6 +102,35 @@ class Registry {
         return pool<Component>();
     }
 
+    template<typename... Component>
+    SparseSet<Entity> & handler() {
+        static_assert(sizeof...(Component) > 1, "!");
+        const auto vtype = view_family::type<Component...>();
+
+        if(!(vtype < handlers.size())) {
+            handlers.resize(vtype + 1);
+        }
+
+        if(!handlers[vtype]) {
+            using accumulator_type = int[];
+
+            auto set = std::make_unique<SparseSet<Entity>>();
+
+            for(auto entity: view<Component...>()) {
+                set->construct(entity);
+            }
+
+            accumulator_type accumulator = {
+                (ensure<Component>().append(*set, &Registry::has<Component...>), 0)...
+            };
+
+            handlers[vtype] = std::move(set);
+            (void)accumulator;
+        }
+
+        return *handlers[vtype];
+    }
+
 public:
     /*! @brief Underlying entity identifier. */
     using entity_type = typename traits_type::entity_type;
@@ -370,7 +399,7 @@ public:
     template<typename Component>
     void remove(entity_type entity) {
         assert(valid(entity));
-        return pool<Component>().destroy(entity);
+        pool<Component>().destroy(entity);
     }
 
     /**
@@ -499,7 +528,7 @@ public:
     }
 
     /**
-     * @brief Sorts the pool of the given component.
+     * @brief Sorts the pool of entities for the given component.
      *
      * The order of the elements in a pool is highly affected by assignements
      * of components to entities and deletions. Components are arranged to
@@ -662,7 +691,7 @@ public:
      * @see View<Entity, Component>
      * @see PersistentView
      *
-     * @tparam Component Type of the components used to construct the view.
+     * @tparam Component Type of components used to construct the view.
      * @return A newly created standard view.
      */
     template<typename... Component>
@@ -684,33 +713,11 @@ public:
      * can be prepared with this function. Just use the same set of components
      * that would have been used otherwise to contruct the view.
      *
-     * @tparam Component Types of the components used to prepare the view.
+     * @tparam Component Types of components used to prepare the view.
      */
     template<typename... Component>
     void prepare() {
-        static_assert(sizeof...(Component) > 1, "!");
-        const auto vtype = view_family::type<Component...>();
-
-        if(!(vtype < handlers.size())) {
-            handlers.resize(vtype + 1);
-        }
-
-        if(!handlers[vtype]) {
-            using accumulator_type = int[];
-
-            auto handler = std::make_unique<SparseSet<Entity>>();
-
-            for(auto entity: view<Component...>()) {
-                handler->construct(entity);
-            }
-
-            accumulator_type accumulator = {
-                (ensure<Component>().append(*handler, &Registry::has<Component...>), 0)...
-            };
-
-            handlers[vtype] = std::move(handler);
-            (void)accumulator;
-        }
+        handler<Component...>();
     }
 
     /**
@@ -746,14 +753,12 @@ public:
      * @see View<Entity, Component>
      * @see PersistentView
      *
-     * @tparam Component Types of the components used to construct the view.
+     * @tparam Component Types of components used to construct the view.
      * @return A newly created persistent view.
      */
     template<typename... Component>
     PersistentView<Entity, Component...> persistent() {
-        static_assert(sizeof...(Component) > 1, "!");
-        prepare<Component...>();
-        return PersistentView<Entity, Component...>{*handlers[view_family::type<Component...>()], ensure<Component>()...};
+        return PersistentView<Entity, Component...>{handler<Component...>(), ensure<Component>()...};
     }
 
 private:
