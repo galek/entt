@@ -1,4 +1,5 @@
 #include "core/family.hpp"
+#include "core/hashed_string.hpp"
 #include "core/ident.hpp"
 #include "entity/registry.hpp"
 #include "entity/sparse_set.hpp"

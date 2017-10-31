@@ -24,6 +24,7 @@ add_executable(
     core
     $<TARGET_OBJECTS:odr>
     entt/core/family.cpp
+    entt/core/hashed_string.cpp
     entt/core/ident.cpp
 )
 target_link_libraries(core PRIVATE gtest_main Threads::Threads)
