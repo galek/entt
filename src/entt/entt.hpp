@@ -6,6 +6,7 @@
 #include "entity/traits.hpp"
 #include "entity/view.hpp"
 #include "locator/locator.hpp"
+#include "resource/resource.hpp"
 #include "signal/bus.hpp"
 #include "signal/delegate.hpp"
 #include "signal/emitter.hpp"

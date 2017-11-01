@@ -52,7 +52,17 @@ add_executable(
 target_link_libraries(locator PRIVATE gtest_main Threads::Threads)
 add_test(NAME locator COMMAND locator)
 
-# Test locator
+# Test resource
+
+add_executable(
+    resource
+    $<TARGET_OBJECTS:odr>
+    entt/resource/resource.cpp
+)
+target_link_libraries(resource PRIVATE gtest_main Threads::Threads)
+add_test(NAME resource COMMAND resource)
+
+# Test signal
 
 add_executable(
     signal
