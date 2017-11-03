@@ -46,21 +46,6 @@ public:
     /*! @brief Unsigned integer type. */
     using size_type = std::size_t;
 
-    /*! @brief Default constructor, explicit on purpose. */
-    explicit Bus() noexcept = default;
-    /*! @brief Default destructor. */
-    ~Bus() noexcept = default;
-
-    /*! @brief Default copy constructor. */
-    Bus(const Bus &) = default;
-    /*! @brief Default move constructor. */
-    Bus(Bus &&) = default;
-
-    /*! @brief Default copy assignment operator. @return This bus. */
-    Bus & operator=(const Bus &) = default;
-    /*! @brief Default move assignment operator. @return This bus. */
-    Bus & operator=(Bus &&) = default;
-
     /**
      * @brief Unregisters all the member functions of an instance.
      *
@@ -202,21 +187,6 @@ class Bus<Sig, Event> {
 public:
     /*! @brief Unsigned integer type. */
     using size_type = typename signal_type::size_type;
-
-    /*! @brief Default constructor, explicit on purpose. */
-    explicit Bus() noexcept = default;
-    /*! @brief Default destructor. */
-    virtual ~Bus() noexcept = default;
-
-    /*! @brief Default copy constructor. */
-    Bus(const Bus &) = default;
-    /*! @brief Default move constructor. */
-    Bus(Bus &&) = default;
-
-    /*! @brief Default copy assignment operator. @return This bus. */
-    Bus & operator=(const Bus &) = default;
-    /*! @brief Default move assignment operator. @return This bus. */
-    Bus & operator=(Bus &&) = default;
 
     /**
      * @brief Unregisters member functions of instances.

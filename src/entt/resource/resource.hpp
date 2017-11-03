@@ -58,10 +58,6 @@ class ResourceLoader {
     std::shared_ptr<Resource> get(Args&&... args) const {
         return static_cast<const Loader *>(this)->load(std::forward<Args>(args)...);
     }
-
-public:
-    /*! @brief Default destructor. */
-    virtual ~ResourceLoader() = default;
 };
 
 
@@ -171,9 +167,53 @@ private:
  * @tparam Resource Type of resources managed by a cache.
  */
 template<typename Resource>
-struct ResourceCache {
+class ResourceCache {
+    using container_type = std::unordered_map<HashedString::hash_type, std::shared_ptr<Resource>>;
+
+public:
+    /*! @brief Unsigned integer type. */
+    using size_type = typename container_type::size_type;
     /*! @brief Type of resources managed by a cache. */
     using resource_type = HashedString;
+
+    /*! @brief Default constructor. */
+    ResourceCache() = default;
+
+    /*! @brief Copying a cache isn't allowed. */
+    ResourceCache(const ResourceCache &) noexcept = delete;
+    /*! @brief Default move constructor. */
+    ResourceCache(ResourceCache &&) noexcept = default;
+
+    /*! @brief Copying a cache isn't allowed. @return This cache. */
+    ResourceCache & operator=(const ResourceCache &) noexcept = delete;
+    /*! @brief Default move assignment operator. @return This cache. */
+    ResourceCache & operator=(ResourceCache &&) noexcept = default;
+
+    /**
+     * @brief Number of resources managed by a cache.
+     * @return Number of resources currently stored.
+     */
+    size_type size() const noexcept {
+        return resources.size();
+    }
+
+    /**
+     * @brief Returns true if a cache contains no resources, false otherwise.
+     * @return True if the cache contains no resources, false otherwise.
+     */
+    bool empty() const noexcept {
+        return resources.empty();
+    }
+
+    /**
+     * @brief Clears a cache and discards all its resources.
+     *
+     * Handles are not invalidated and the memory used by a resource isn't
+     * freed as long as at least a handle keeps the resource itself alive.
+     */
+    void clear() noexcept {
+        resources.clear();
+    }
 
     /**
      * @brief Loads the resource that corresponds to the given identifier.
@@ -248,14 +288,6 @@ struct ResourceCache {
     }
 
     /**
-     * @brief Returns true if a cache contains no resources, false otherwise.
-     * @return True if the cache contains no resources, false otherwise.
-     */
-    bool empty() const noexcept {
-        return resources.empty();
-    }
-
-    /**
      * @brief Checks if a cache contains the given identifier.
      * @param id Unique resource identifier.
      * @return True if the cache contains the resource, false otherwise.
@@ -280,21 +312,8 @@ struct ResourceCache {
         }
     }
 
-    /**
-     * @brief Clears a cache and discards all its resources.
-     *
-     * Handles are not invalidated and the memory used by a resource isn't
-     * freed as long as at least a handle keeps the resource itself alive.
-     */
-    void clear() noexcept {
-        resources.clear();
-    }
-
 private:
-    std::unordered_map<
-        resource_type::hash_type,
-        std::shared_ptr<Resource>
-    > resources;
+    container_type resources;
 };
 
 

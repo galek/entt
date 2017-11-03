@@ -21,18 +21,21 @@ TEST(ResourceCache, Functionalities) {
     constexpr auto hs1 = entt::HashedString{"res1"};
     constexpr auto hs2 = entt::HashedString{"res2"};
 
+    ASSERT_EQ(cache.size(), entt::ResourceCache<Resource>::size_type{});
     ASSERT_TRUE(cache.empty());
     ASSERT_FALSE(cache.contains(hs1));
     ASSERT_FALSE(cache.contains(hs2));
 
     ASSERT_FALSE(cache.load<BrokenLoader>(hs1, 42));
 
+    ASSERT_EQ(cache.size(), entt::ResourceCache<Resource>::size_type{});
     ASSERT_TRUE(cache.empty());
     ASSERT_FALSE(cache.contains(hs1));
     ASSERT_FALSE(cache.contains(hs2));
 
     ASSERT_TRUE(cache.load<Loader>(hs1, 42));
 
+    ASSERT_NE(cache.size(), entt::ResourceCache<Resource>::size_type{});
     ASSERT_FALSE(cache.empty());
     ASSERT_TRUE(cache.contains(hs1));
     ASSERT_FALSE(cache.contains(hs2));
@@ -40,6 +43,7 @@ TEST(ResourceCache, Functionalities) {
 
     ASSERT_TRUE(cache.load<Loader>(hs2, 42));
 
+    ASSERT_NE(cache.size(), entt::ResourceCache<Resource>::size_type{});
     ASSERT_FALSE(cache.empty());
     ASSERT_TRUE(cache.contains(hs1));
     ASSERT_TRUE(cache.contains(hs2));
@@ -55,12 +59,14 @@ TEST(ResourceCache, Functionalities) {
     ASSERT_TRUE(cache.load<Loader>(hs1, 42));
     ASSERT_NO_THROW(cache.clear());
 
+    ASSERT_EQ(cache.size(), entt::ResourceCache<Resource>::size_type{});
     ASSERT_TRUE(cache.empty());
     ASSERT_FALSE(cache.contains(hs1));
     ASSERT_FALSE(cache.contains(hs2));
 
     ASSERT_TRUE(cache.load<Loader>(hs1, 42));
 
+    ASSERT_NE(cache.size(), entt::ResourceCache<Resource>::size_type{});
     ASSERT_FALSE(cache.empty());
     ASSERT_TRUE(cache.handle(hs1));
     ASSERT_FALSE(cache.handle(hs2));
@@ -69,5 +75,6 @@ TEST(ResourceCache, Functionalities) {
     ASSERT_EQ(&cache.handle(hs1).get(), &static_cast<const Resource &>(cache.handle(hs1)));
     ASSERT_NO_THROW(cache.clear());
 
+    ASSERT_EQ(cache.size(), entt::ResourceCache<Resource>::size_type{});
     ASSERT_TRUE(cache.empty());
 }

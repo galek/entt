@@ -139,10 +139,8 @@ public:
     /*! @brief Unsigned integer type. */
     using size_type = std::size_t;
 
-    /*! @brief Default constructor, explicit on purpose. */
-    explicit Registry() = default;
-    /*! @brief Default destructor. */
-    ~Registry() = default;
+    /*! @brief Default constructor. */
+    Registry() = default;
 
     /*! @brief Copying a registry isn't allowed. */
     Registry(const Registry &) = delete;

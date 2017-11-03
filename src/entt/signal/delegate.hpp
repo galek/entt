@@ -49,8 +49,8 @@ class Delegate<Ret(Args...)> final {
     }
 
 public:
-    /*! @brief Default constructor, explicit on purpose. */
-    explicit Delegate() noexcept
+    /*! @brief Default constructor. */
+    Delegate() noexcept
         : stub{std::make_pair(nullptr, &fallback)}
     {}
 

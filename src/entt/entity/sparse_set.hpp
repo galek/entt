@@ -99,16 +99,16 @@ public:
     /*! @brief Input iterator type. */
     using iterator_type = Iterator;
 
-    /*! @brief Default constructor, explicit on purpose. */
-    explicit SparseSet() noexcept = default;
+    /*! @brief Default constructor. */
+    SparseSet() noexcept = default;
+
+    /*! @brief Default destructor. */
+    virtual ~SparseSet() noexcept = default;
 
     /*! @brief Copying a sparse set isn't allowed. */
     SparseSet(const SparseSet &) = delete;
     /*! @brief Default move constructor. */
     SparseSet(SparseSet &&) = default;
-
-    /*! @brief Default destructor. */
-    virtual ~SparseSet() noexcept = default;
 
     /*! @brief Copying a sparse set isn't allowed. @return This sparse set. */
     SparseSet & operator=(const SparseSet &) = delete;
@@ -422,8 +422,8 @@ public:
     /*! @brief Input iterator type. */
     using iterator_type = typename underlying_type::iterator_type;
 
-    /*! @brief Default constructor, explicit on purpose. */
-    explicit SparseSet() noexcept = default;
+    /*! @brief Default constructor. */
+    SparseSet() noexcept = default;
 
     /*! @brief Copying a sparse set isn't allowed. */
     SparseSet(const SparseSet &) = delete;

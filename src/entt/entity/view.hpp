@@ -77,7 +77,7 @@ public:
      * @param view Shared reference to a dedicated pool of entities.
      * @param pools References to pools of components.
      */
-    explicit PersistentView(view_type &view, pool_type<Component>&... pools) noexcept
+    PersistentView(view_type &view, pool_type<Component>&... pools) noexcept
         : view{view}, pools{pools...}
     {}
 
@@ -368,7 +368,7 @@ public:
      * @param pool A reference to a pool of components.
      * @param other Other references to pools of components.
      */
-    explicit View(pool_type<First> &pool, pool_type<Other>&... other) noexcept
+    View(pool_type<First> &pool, pool_type<Other>&... other) noexcept
         : pools{pool, other...}, view{nullptr}
     {
         reset();
@@ -576,7 +576,7 @@ public:
      * @brief Constructs a view out of a pool of components.
      * @param pool A reference to a pool of components.
      */
-    explicit View(pool_type &pool) noexcept
+    View(pool_type &pool) noexcept
         : pool{pool}
     {}
 
