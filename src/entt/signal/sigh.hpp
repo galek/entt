@@ -91,11 +91,13 @@ class SigH;
  * of this class are in charge of disconnecting instances before deleting them.
  *
  * This class serves mainly two purposes:
+ *
  * * Creating signals used later to notify a bunch of listeners.
  * * Collecting results from a set of functions like in a voting system.
  *
  * The default collector does nothing. To properly collect data, define and use
  * a class that has a call operator the signature of which is `bool(Param)` and:
+ *
  * * `Param` is a type to which `Ret` can be converted.
  * * The return type is true if the handler must stop collecting data, false
  *   otherwise.
@@ -140,7 +142,7 @@ public:
     }
 
     /**
-     * @brief Returns false is at least a listener is connected to the signal.
+     * @brief Returns false if at least a listener is connected to the signal.
      * @return True if the signal has no listeners connected, false otherwise.
      */
     bool empty() const noexcept {

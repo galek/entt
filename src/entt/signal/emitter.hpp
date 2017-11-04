@@ -157,7 +157,7 @@ public:
         friend class Emitter;
 
         /*! @brief Default constructor. */
-        Connection() = default;
+        Connection() noexcept = default;
 
         /**
          * @brief Creates a connection that wraps its underlying instance.

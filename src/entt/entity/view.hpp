@@ -70,6 +70,7 @@ public:
      * @brief Constructs a persistent view around a dedicated pool of entities.
      *
      * A persistent view is created out of:
+     *
      * * A dedicated pool of entities that is shared between all the persistent
      * views of the same type.
      * * A bunch of pools of components to which to refer to get instances.

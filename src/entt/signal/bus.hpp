@@ -102,7 +102,7 @@ public:
     }
 
     /**
-     * @brief Returns false is at least a listener is connected to the bus.
+     * @brief Returns false if at least a listener is connected to the bus.
      * @return True if the bus has no listeners connected, false otherwise.
      */
     bool empty() const noexcept {
@@ -229,7 +229,7 @@ public:
     }
 
     /**
-     * @brief Returns false is at least a listener is connected to the bus.
+     * @brief Returns false if at least a listener is connected to the bus.
      * @return True if the bus has no listeners connected, false otherwise.
      */
     bool empty() const noexcept {

@@ -131,7 +131,7 @@ public:
 
     /**
      * @brief Checks whether a sparse set is empty.
-     * @return True is the sparse set is empty, false otherwise.
+     * @return True if the sparse set is empty, false otherwise.
      */
     bool empty() const noexcept {
         return direct.empty();

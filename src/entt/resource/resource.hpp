@@ -279,6 +279,8 @@ public:
      * cache contains the resource itself. Otherwise the returned handle is
      * uninitialized and accessing it results in undefined behavior.
      *
+     * @sa ResourceHandle
+     *
      * @param id Unique resource identifier.
      * @return A handle for the given resource.
      */

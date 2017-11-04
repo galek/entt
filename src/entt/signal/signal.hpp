@@ -79,7 +79,7 @@ public:
     }
 
     /**
-     * @brief Returns false is at least a listener is connected to the signal.
+     * @brief Returns false if at least a listener is connected to the signal.
      * @return True if the signal has no listeners connected, false otherwise.
      */
     bool empty() const noexcept {

@@ -243,6 +243,7 @@ public:
      * @brief Returns a new entity initialized with the given components.
      *
      * There are two kinds of entity identifiers:
+     *
      * * Newly created ones in case no entities have been previously destroyed.
      * * Recycled one with updated versions.
      *
@@ -270,6 +271,7 @@ public:
      * @brief Returns a new entity to which the given components are assigned.
      *
      * There are two kinds of entity identifiers:
+     *
      * * Newly created ones in case no entities have been previously destroyed.
      * * Recycled one with updated versions.
      *
@@ -296,6 +298,7 @@ public:
      * @brief Creates a new entity and returns it.
      *
      * There are two kinds of entity identifiers:
+     *
      * * Newly created ones in case no entities have been previously destroyed.
      * * Recycled one with updated versions.
      *
@@ -673,6 +676,7 @@ public:
      *
      * Standard views do their best to iterate the smallest set of candidate
      * entites. In particular:
+     *
      * * Single component views are incredibly fast and iterate a packed array
      * of entities, all of which has the given component.
      * * Multi component views look at the number of entities available for each
@@ -732,6 +736,7 @@ public:
      * of components grows up and the most of the entities have all the given
      * components.<br/>
      * However they have also drawbacks:
+     *
      * * Each kind of persistent view requires a dedicated data structure that
      * is allocated within the registry and it increases memory pressure.
      * * Internal data structures used to construct persistent views must be
