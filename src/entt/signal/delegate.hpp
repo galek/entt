@@ -19,7 +19,7 @@ class Delegate;
 
 
 /**
- * @brief A delegate class to send around functions and member functions.
+ * @brief Utility class to send around functions and member functions.
  *
  * Unmanaged delegate for function pointers and member functions. Users of this
  * class are in charge of disconnecting instances before deleting them.
