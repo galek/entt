@@ -35,6 +35,7 @@ add_test(NAME core COMMAND core)
 add_executable(
     entity
     $<TARGET_OBJECTS:odr>
+    entt/entity/actor.cpp
     entt/entity/registry.cpp
     entt/entity/sparse_set.cpp
     entt/entity/view.cpp
@@ -51,6 +52,17 @@ add_executable(
 )
 target_link_libraries(locator PRIVATE gtest_main Threads::Threads)
 add_test(NAME locator COMMAND locator)
+
+# Test process
+
+add_executable(
+    process
+    $<TARGET_OBJECTS:odr>
+    entt/process/process.cpp
+    entt/process/scheduler.cpp
+)
+target_link_libraries(process PRIVATE gtest_main Threads::Threads)
+add_test(NAME process COMMAND process)
 
 # Test resource
 
