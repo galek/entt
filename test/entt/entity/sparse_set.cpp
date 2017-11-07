@@ -70,6 +70,12 @@ TEST(SparseSetNoType, DataBeginEnd) {
     ASSERT_EQ(begin, end);
 }
 
+TEST(SparseSetWithType, AggregatesMustWork) {
+    struct AggregateType { int value; };
+    // the goal of this test is to enforce the requirements for aggregate types
+    entt::SparseSet<unsigned int, AggregateType>{}.construct(0, 42);
+}
+
 TEST(SparseSetWithType, Functionalities) {
     entt::SparseSet<unsigned int, int> set;
 
