@@ -21,6 +21,11 @@ a while the codebase has grown and more and more classes have become part
 of the repository.<br/>
 That's why today it's called _the EnTT Framework_.
 
+Currently, `EnTT` is tested on Linux, Microsoft Windows and OS X. It has proven
+to work also on both Android and iOS.<br/>
+Most likely it will not be problematic on other systems as well, but has not
+been sufficiently tested so far.
+
 ## The framework
 
 `EnTT` was written initially as a faster alternative to other well known and
@@ -42,13 +47,16 @@ Here is a brief list of what it offers today:
 
 * Statically generated integer identifiers for types (assigned either at
 compile-time or at runtime).
+* A constexpr utility for human readable resource identifiers.
 * An incredibly fast entity-component system based on sparse sets, with its own
 views and a _pay for what you use_ policy to adjust performance and memory
 pressure according to the users' requirements.
+* The smallest and most basic implementation of a service locator ever seen.
+* A cooperative scheduler for processes of any type.
+* All what is needed for resource management (cache, loaders, handles).
 * Signal handlers of any type, delegates and an event bus.
 * A general purpose event emitter, that is a CRTP idiom based class template.
 * An event dispatcher for immediate and delayed events to integrate in loops.
-* The smallest and most basic implementation of a service locator ever seen.
 * ...
 * Any other business.
 
@@ -247,6 +255,24 @@ Benchmarks are compiled only in release mode currently.
 
 ## Design choices
 
+### A bitset-free entity-component system
+
+`EnTT` is a _bitset-free_ entity-component system that doesn't require users to
+specify the component set at compile-time.<br/>
+That's the reason for which users can instantiate the core class simply as:
+
+```cpp
+entt::DefaultRegistry registry;
+```
+
+In place of its more annoying and error-prone counterpart:
+
+```cpp
+entt::DefaultRegistry<Comp0, Comp1, ..., CompN> registry;
+```
+
+### Pay per use
+
 `EnTT` is entirely designed around the principle that users have to pay only for
 what they want.
 
@@ -262,7 +288,7 @@ The disadvantage of this approach is that users need to know the systems they
 are working on and the tools they are using. Otherwise, the risk to ruin the
 performance along critical paths is high.
 
-So far, this choice has proved to be a good one and I really hope it can be for
+So far, this choice has proven to be a good one and I really hope it can be for
 many others besides me.
 
 ## Vademecum
@@ -438,7 +464,7 @@ Finally, references to components can be retrieved by just doing this:
 
 ```cpp
 // either a non-const reference ...
-DefaultRegistry registry;
+entt::DefaultRegistry registry;
 auto &position = registry.get<Position>(entity);
 
 // ... or a const one

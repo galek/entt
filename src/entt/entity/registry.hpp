@@ -144,13 +144,13 @@ public:
 
     /*! @brief Copying a registry isn't allowed. */
     Registry(const Registry &) = delete;
-    /*! @brief Moving a registry isn't allowed. */
-    Registry(Registry &&) = delete;
+    /*! @brief Default move constructor. */
+    Registry(Registry &&) = default;
 
     /*! @brief Copying a registry isn't allowed. @return This registry. */
     Registry & operator=(const Registry &) = delete;
-    /*! @brief Moving a registry isn't allowed. @return This registry. */
-    Registry & operator=(Registry &&) = delete;
+    /*! @brief Default move assignment operator. @return This registry. */
+    Registry & operator=(Registry &&) = default;
 
     /**
      * @brief Returns the number of existing components of the given type.

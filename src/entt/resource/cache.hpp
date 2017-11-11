@@ -1,159 +1,17 @@
-#ifndef ENTT_RESOURCE_RESOURCE_HPP
-#define ENTT_RESOURCE_RESOURCE_HPP
+#ifndef ENTT_RESOURCE_CACHE_HPP
+#define ENTT_RESOURCE_CACHE_HPP
 
 
 #include <memory>
 #include <utility>
-#include <cassert>
 #include <type_traits>
 #include <unordered_map>
 #include "../core/hashed_string.hpp"
+#include "handle.hpp"
+#include "loader.hpp"
 
 
 namespace entt {
-
-
-template<typename Resource>
-struct ResourceCache;
-
-
-/**
- * @brief Base class for resource loaders.
- *
- * Resource loaders must inherit from this class and stay true to the CRTP
- * idiom. Moreover, a resource loader must expose a public, const member
- * function named `load` that accepts a variable number of arguments and return
- * a shared pointer to the resource just created.<br/>
- * As an example:
- *
- * @code{.cpp}
- * struct MyResource {};
- *
- * struct MyLoader: entt::ResourceLoader<MyLoader, MyResource> {
- *     std::shared_ptr<MyResource> load(int) const {
- *         // use the integer value somehow
- *         return std::make_shared<MyResource>();
- *     }
- * };
- * @endcode
- *
- * In general, resource loaders should not have a state or retain data of any
- * type. They should let the cache manage their resources instead.
- *
- * @note
- * Base class and CRTP idiom aren't strictly required with the current
- * implementation. One could argue that a cache can easily work with loaders of
- * any type. However, future changes won't be breaking ones by forcing the use
- * of a base class today and that's why the model is already in its place.
- *
- * @tparam Loader Type of the derived class.
- * @tparam Resource Type of resource for which to use the loader.
- */
-template<typename Loader, typename Resource>
-class ResourceLoader {
-    /*! Resource loaders are friends of their caches. */
-    friend class ResourceCache<Resource>;
-
-    template<typename... Args>
-    std::shared_ptr<Resource> get(Args&&... args) const {
-        return static_cast<const Loader *>(this)->load(std::forward<Args>(args)...);
-    }
-};
-
-
-/**
- * @brief Shared resource handle.
- *
- * A shared resource handle is a small class that wraps a resource and keeps it
- * alive even if it's deleted from the cache. It can be either copied or
- * moved. A handle shares a reference to the same resource with all the other
- * handles constructed for the same identifier.<br/>
- * As a rule of thumb, resources should never be copied nor moved. Handles are
- * the way to go to keep references to them.
- *
- * @tparam Resource Type of resource managed by a handle.
- */
-template<typename Resource>
-class ResourceHandle final {
-    /*! Resource handles are friends of their caches. */
-    friend class ResourceCache<Resource>;
-
-    ResourceHandle(std::shared_ptr<Resource> res) noexcept
-        : resource{std::move(res)}
-    {}
-
-public:
-    /*! @brief Default copy constructor. */
-    ResourceHandle(const ResourceHandle &) noexcept = default;
-    /*! @brief Default move constructor. */
-    ResourceHandle(ResourceHandle &&) noexcept = default;
-
-    /*! @brief Default copy assignment operator. @return This handle. */
-    ResourceHandle & operator=(const ResourceHandle &) noexcept = default;
-    /*! @brief Default move assignment operator. @return This handle. */
-    ResourceHandle & operator=(ResourceHandle &&) noexcept = default;
-
-    /**
-     * @brief Gets a reference to the managed resource.
-     *
-     * @warning
-     * The behavior is undefined if the handle doesn't contain a resource.<br/>
-     * An assertion will abort the execution at runtime in debug mode if the
-     * handle is empty.
-     *
-     * @return A reference to the managed resource.
-     */
-    const Resource & get() const noexcept {
-        assert(static_cast<bool>(resource));
-        return *resource;
-    }
-
-    /**
-     * @brief Casts a handle and gets a reference to the managed resource.
-     *
-     * @warning
-     * The behavior is undefined if the handle doesn't contain a resource.<br/>
-     * An assertion will abort the execution at runtime in debug mode if the
-     * handle is empty.
-     */
-    inline operator const Resource & () const noexcept { return get(); }
-
-    /**
-     * @brief Dereferences a handle to obtain the managed resource.
-     *
-     * @warning
-     * The behavior is undefined if the handle doesn't contain a resource.<br/>
-     * An assertion will abort the execution at runtime in debug mode if the
-     * handle is empty.
-     *
-     * @return A reference to the managed resource.
-     */
-    inline const Resource & operator *() const noexcept { return get(); }
-
-    /**
-     * @brief Gets a pointer to the managed resource from a handle .
-     *
-     * @warning
-     * The behavior is undefined if the handle doesn't contain a resource.<br/>
-     * An assertion will abort the execution at runtime in debug mode if the
-     * handle is empty.
-     *
-     * @return A pointer to the managed resource or `nullptr` if the handle
-     * contains no resource at all.
-     */
-    inline const Resource * operator ->() const noexcept {
-        assert(static_cast<bool>(resource));
-        return resource.get();
-    }
-
-    /**
-     * @brief Returns true if the handle contains a resource, false otherwise.
-     */
-    explicit operator bool() const { return static_cast<bool>(resource); }
-
-private:
-    std::shared_ptr<Resource> resource;
-};
 
 
 /**
@@ -322,4 +180,4 @@ private:
 }
 
 
-#endif // ENTT_RESOURCE_RESOURCE_HPP
+#endif // ENTT_RESOURCE_CACHE_HPP

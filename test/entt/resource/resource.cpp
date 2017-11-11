@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <entt/resource/resource.hpp>
+#include <entt/resource/cache.hpp>
 
 struct Resource { const int value; };
 
